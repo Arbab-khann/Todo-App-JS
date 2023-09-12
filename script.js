@@ -1,33 +1,38 @@
-// selector
+// card container (section)
 let section = document.getElementsByTagName("section");
 let header = document.getElementsByTagName("header");
+//hide the second page heading
 header[1].style.display = "none";
-// creating a text node in section
+
+//--> creating a text node in section and connecting it.
 let textNode = document.createElement("div");
-textNode.textContent = " No items in the todo list ";
+textNode.textContent = " No Items In The ToDo List... ";
 section[0].appendChild(textNode);
 //checking if textNode should visible or not
 if (section[0].childNodes.length === 0) {
   textNode.style.display = "block";
 }
-// event listner on addItems it will show the "add new list" popUp
+
+//eventlistner on addItems1 it will show the "add new list" popUp
 let addItems1 = document.getElementById("addItem1");
 addItems1.addEventListener("click", () => {
   let heading = "Add new list";
   popUp(addItems1, heading);
 });
-// Funcrtion  one create popup
+
+//---> Function  one create popup
 // button ------->button that triger the popUp function
-//  heading----------->card heading
-// newTast----->card div
+// heading----------->card heading
+// newTast----->card div because of sub task
 function popUp(button, heading, newTask) {
-  // disableing the buttons
+  // disableing the buttons once it clicked
   button.style.pointerEvents = "none";
 
   // popup
   let popUp = document.createElement("div");
   popUp.className = "popUp";
   popUp.id = "popUp";
+
   // popup header
   let popUpHead = document.createElement("div");
   popUpHead.className = "popUpHead";
@@ -36,10 +41,10 @@ function popUp(button, heading, newTask) {
   let PopUpInput = document.createElement("input");
   PopUpInput.type = "text";
   PopUpInput.placeholder = heading;
-  // popup buttons
+  // popup buttons (add & close)
   let popUpButtons = document.createElement("span");
   popUpButtons.className = "popUpButtons";
-  // add Button
+  // add Buttons on popup
   let addBtn = document.createElement("div");
   addBtn.className = "addBtn";
   addBtn.textContent = "Add";
@@ -56,14 +61,15 @@ function popUp(button, heading, newTask) {
   popUpButtons.appendChild(addBtn);
   popUpButtons.appendChild(closeBtn);
 
-  // ----------pop features-------
+  // ----------popup working-------
 
-  // 1 bg blur
+  // backgroud blur after openning pupop
+  // to open smoothly add transition
   section[0].classList.add("blur");
   header[0].classList.add("blur");
   header[1].classList.add("blur");
-  // 2 transition
-  // adding the animation class
+
+  // adding the animation class which already css applied for transition
   popUp.classList.add("popTransitionComing");
 
   // ----------close the popup-----------
@@ -90,44 +96,43 @@ function popUp(button, heading, newTask) {
     }, 500);
   }
 
-  // close the popup by add btn and creating new task card by clicking on add
+  // popup close by clicking add btn and creating new task card by clicking on add
   addBtn.addEventListener("click", () => {
-    // PopUpInput.value is give the value that is taken from user input
+    // PopUpInput.value is value that taken from user
     if (PopUpInput.value) {
-      let flag = "true"; //true is for subtask and false is for new task card
       if (heading === "Add new list") {
-        addNewCard(PopUpInput.value, !flag);
-        statusAddBtn = true;
+        addNewCard(PopUpInput.value);
+        statusAddBtn = true; //if true go to page one
       }
+
       if (heading === "Add new item") {
-        // PopUpInput.value is give the value that is taken from user input
+        // PopUpInput.value is value that is taken from user
         // creating new subheading
-        // close the popup by close btn and creating new task card by clicking on add
+        // popup close by clicking add btn and creating new task card by clicking on add
         subTask(PopUpInput.value, newTask);
-        statusAddBtn = false;
+        statusAddBtn = false; //false then no change
       }
     }
     // this is removing the section text if any card is being added
     if (section[0].childNodes.length !== 0) {
       textNode.remove();
     }
-    // cheching the status Add Btn
+    // checking the status Add Btn
     statusOfPopUp(statusAddBtn);
     closeTask();
   });
 }
-
-// for add new task cards
-function addNewCard(headingText, flag) {
+// add new task cards in Task list
+function addNewCard(headingText) {
   // -------------creating nodes------------
   // new task
   let newTask = document.createElement("div");
   newTask.className = "newTask";
 
-  // new  Task Head
+  // new  Task Heading div
   let newTaskHeading = document.createElement("div");
   newTaskHeading.className = "newTaskHeading";
-  newTaskHeading.innerHTML = headingText; //temporary
+  newTaskHeading.innerHTML = headingText; //temporary it will change
   // line
   let line = document.createElement("div");
   line.className = "line";
@@ -138,48 +143,34 @@ function addNewCard(headingText, flag) {
   let newTaskBtn = document.createElement("button");
   newTaskBtn.className = "newTaskBtn";
   newTaskBtn.textContent = "Mark Done";
-  // new Task buttons
+  // new Task buttons add and delete
   let newTaskbuttons = document.createElement("div");
   newTaskbuttons.className = "newTaskbuttons";
-  // new Task Delete
+  // new Task button Delete
   let newTaskDelete = document.createElement("i");
   newTaskDelete.className = "fa-solid fa-trash-can newTaskDelete";
-  // new Task plus
+  // new Task button plus
   let newTaskplus = document.createElement("i");
   newTaskplus.className = "fa-sharp fa-solid fa-circle-plus newTaskplus";
   // ----------------checking whether we want to create a new card or just add new subtask --------------------
-  // -----------if flag is true than subtask is being added---------
-  if (flag) {
-    section[0].appendChild(newTask);
-    newTask.appendChild(newTaskHeading);
-    newTask.appendChild(line);
-    newTask.appendChild(newTaskbuttons);
-    newTaskbuttons.appendChild(newTaskDelete);
-    newTaskbuttons.appendChild(newTaskplus);
-    newTask.appendChild(newTaskDescription);
-    newTaskDescription.appendChild(newTaskBtn);
-    console.log(headingText);
-    newTaskDescription.innerHTML = headingText;
-  } else {
-    //-----------connecting nodes------------;
-    section[0].appendChild(newTask);
-    newTask.appendChild(newTaskHeading);
-    newTask.appendChild(line);
-    newTask.appendChild(newTaskbuttons);
-    newTaskbuttons.appendChild(newTaskDelete);
-    newTaskbuttons.appendChild(newTaskplus);
-  }
+  //-----------connecting nodes------------;
+  section[0].appendChild(newTask);
+  newTask.appendChild(newTaskHeading);
+  newTask.appendChild(line);
+  newTask.appendChild(newTaskbuttons);
+  newTaskbuttons.appendChild(newTaskDelete);
+  newTaskbuttons.appendChild(newTaskplus);
 
-  // when we click on mark as done text decoration will apply on description
+  // when click on mark as done text decoration will apply
   newTaskBtn.addEventListener("click", () => {
     change();
   });
-  // change() function is for the subtask description
+  // change function apply on subtask description
   function change() {
     newTaskDescription.style.textDecoration = "line-through";
     newTaskDescription.style.color = "red";
   }
-  // create a sub task on clicking the plus btn
+  // in card create subtask on clicking the plus btn
   newTaskplus.addEventListener("click", () => {
     let createSubTaskHeading = "Add new item";
     popUp(newTaskplus, createSubTaskHeading, newTask);
@@ -187,7 +178,7 @@ function addNewCard(headingText, flag) {
   //   deleting the task card
   newTaskDelete.addEventListener("click", () => {
     newTask.remove();
-    // this is taking back the section text if no card is left
+    // taking back the section text, main page text("no item in list")  if no card is left
     if (section[0].childNodes.length === 0) {
       section[0].appendChild(textNode);
     }
@@ -196,25 +187,25 @@ function addNewCard(headingText, flag) {
     selectCard(newTaskHeading.innerHTML, newTask);
   });
 
-  //   for the second page
+  //making it global variable to use in second page
   window.value = newTask;
 }
 
-//subTask function is creating a subtask by taking the input value from user and
-//the headNode is with a parent node of Task Description
-function subTask(value, headNode) {
+//subTask function is creating a subtask by taking the userinput as a value from users
+//parentCard is a parent node of Task Description
+function subTask(value, parentCard) {
   // new Task Description
   let newTaskDescription = document.createElement("div");
   newTaskDescription.className = "newTaskDescription";
   newTaskDescription.textContent = value;
-  // new Task Btn
+  // newTaskBtn is a markdone button
   let newTaskBtn = document.createElement("button");
   newTaskBtn.className = "newTaskBtn";
   newTaskBtn.textContent = "Mark Done";
-  headNode.appendChild(newTaskDescription);
+  parentCard.appendChild(newTaskDescription);
   newTaskDescription.appendChild(newTaskBtn);
 
-  // when we click on mark as done text decoration will apply on description
+  // when we click on mark done text decoration apply on description
   newTaskBtn.addEventListener("click", () => {
     change();
   });
@@ -225,47 +216,45 @@ function subTask(value, headNode) {
   }
 }
 // -------------------------page 2---------------------------------------
-//after clicking the heading of card changing the bg
-function selectCard(cardHeading, node) {
+//after clicking the heading of card changing the background
+function selectCard(cardHeading, selectedcard) {
   // changing the header
   header[1].style.display = "flex";
   header[0].style.display = "none";
   document.getElementById("addItemsContainer");
   addItemsContainer.innerHTML = cardHeading;
-  // changing the section
+  // change section and hidded all cards except selected
   section[0].style.visibility = "hidden";
   //  center the selected div
-  node.classList.add("newTask2");
+  selectedcard.classList.add("newTask2");
 }
 
-//after clicking the back changing to main page
+//clicking back btn come to main page
 function unSelectCard() {
-  //changing the header
+  //header changing
   header[1].style.display = "none";
   header[0].style.display = "flex";
   document.getElementById("addItemsContainer");
   addItemsContainer.innerHTML = "";
-  //changing the section
+  //section changing to visible all cards
   section[0].style.visibility = "visible";
   //center the selected div
   console.log(section[0].childNodes.length);
   console.log(section[0].childNodes);
-  // node.classList.remove('newTask2');
+  // remove classlist ('newTask2') in all cards
   for (let i = 0; i < section[0].childNodes.length; i++) {
     section[0].childNodes[i].classList.remove("newTask2");
   }
 }
 
-// second page function
+//function of second page
 
 let addItem2 = document.getElementById("addItem2");
-let isBtnClick = false;
 
 addItem2.addEventListener("click", () => {
-  let statusAddBtn = false;
-  popUp(addItem2, "Add new list", window.value, statusAddBtn);
+  popUp(addItem2, "Add new list", window.value); //window.value=selected card(newTask)
 });
-// add btn is pressed
+// if statusaddBtn=true then go to page no1 else no change
 function statusOfPopUp(statusAddBtn) {
   if (statusAddBtn) {
     unSelectCard();

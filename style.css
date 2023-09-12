@@ -48,7 +48,7 @@ header {
 
 .addItemPlus {
   font-size: 50px;
-  color: rgb(45, 45, 163);
+  color: blue;
 }
 .addItems:hover {
   cursor: pointer;
@@ -122,7 +122,7 @@ section {
 }
 .newTaskBtn {
   text-align: center;
-  background: 75, 75, 220;
+  background: blue;
   color: white;
   font-size: 12px;
   padding: 0 5px;
@@ -154,7 +154,7 @@ section {
 }
 .newTaskplus {
   font-size: 26px;
-  color: rgb(45, 45, 163);
+  color: blue;
 }
 input[type="text"] {
   padding-left: 10px;
@@ -168,7 +168,6 @@ input[type="text"] {
 @keyframes popTransitionComing {
   from {
     transform: translate(-50%, -10px);
-
     opacity: 0.5;
   }
 }
